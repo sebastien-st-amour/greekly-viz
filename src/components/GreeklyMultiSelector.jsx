@@ -10,6 +10,7 @@ class GreeklyMultiSelector extends React.Component {
     return (
       <Select
         options={this.props.options}
+        onChange={this.props.onSelect}
         isMulti
       />
     );
@@ -18,6 +19,7 @@ class GreeklyMultiSelector extends React.Component {
 
 GreeklyMultiSelector.propTypes = {
   options: PropTypes.array,
+  onSelect: PropTypes.func,
 };
 
 export default GreeklyMultiSelector;
