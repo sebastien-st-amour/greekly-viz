@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GreeklyMultiSelector from "./GreeklyMultiSelector";
+import GreeklyMultiSelector from "../components/GreeklyMultiSelector";
 
 export default {
     title: "GreeklyMultiSelector",

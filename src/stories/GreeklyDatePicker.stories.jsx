@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GreeklyDatePicker from "./GreeklyDatePicker";
+import GreeklyDatePicker from "../components/GreeklyDatePicker";
 
 export default {
     title: "GreeklyDatePicker",
