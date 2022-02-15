@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import GreeklyMultiSelector from "../components/GreeklyMultiSelector";
 
 export default {
-    title: "GreeklyMultiSelector",
-    component: GreeklyMultiSelector,
+  title: "GreeklyMultiSelector",
+  component: GreeklyMultiSelector,
 };
 
 const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 
 export const Default = () => {
   
