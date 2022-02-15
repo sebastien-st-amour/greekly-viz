@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-
-
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 class GreeklyMinMaxInput extends React.Component {
@@ -34,6 +35,11 @@ class GreeklyMinMaxInput extends React.Component {
 
   handleFilterChange(selected) {
 
+    this.props.onChange({
+      min: null,
+      max: null,
+    });
+
     this.setState({
       selectedFilter: selected,
     });
@@ -41,46 +47,51 @@ class GreeklyMinMaxInput extends React.Component {
 
   render() {
 
+    const { selectedFilter } = this.state;
+
     const filterOptions = [
       { value: 'min', label: 'greater than' },
       { value: 'max', label: 'less than' },
       { value: 'between', label: 'between' },
     ];
 
-    const { selectedFilter } = this.state;
-
     let aggregateValueSelector;
 
     if (selectedFilter?.value === 'between') {
 
       aggregateValueSelector = (
-        <div>
-          <div>
-            <label>Min</label>
-            <input type="number" value={this.props.min} onChange={(e) => this.handleMinChange(e.target.value)}/>
-          </div>
-          <div>
-            <label>Max</label>
-            <input type="number" value={this.props.max} onChange={(e) => this.handleMaxChange(e.target.value)}/>
-          </div>
+        <div style={{'display':'inline-flex'}}>
+          <input type="number" value={this.props.min} onChange={(e) => this.handleMinChange(e.target.value)}/>
+          <span> and </span>
+          <input type="number" value={this.props.max} onChange={(e) => this.handleMaxChange(e.target.value)}/>
         </div>
       );
+
     } else if (selectedFilter?.value === 'min') {
+
       aggregateValueSelector = <input type="number" value={this.props.min} onChange={(e) => this.handleMinChange(e.target.value)}/>
+    
     } else if (selectedFilter?.value === 'max') {
+
       aggregateValueSelector = <input type="number" value={this.props.max} onChange={(e) => this.handleMaxChange(e.target.value)}/>
+    
     }
     
     return (
-      <div style={{'display':'inline-flex'}}>
-        <Select
-          options={filterOptions}
-          onChange={this.handleFilterChange}
-        />
-        <div>
-          {aggregateValueSelector}
-        </div>
-      </div>
+      <Container>
+        <Row>
+          <Col>
+            <Select
+              options={filterOptions}
+              value={selectedFilter}
+              onChange={this.handleFilterChange}
+            />
+          </Col>
+          <Col>
+            {aggregateValueSelector}
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
@@ -88,8 +99,8 @@ class GreeklyMinMaxInput extends React.Component {
 GreeklyMinMaxInput.propTypes = {
   onChange: PropTypes.func,
   param: PropTypes.string,
-  min: PropTypes.number,
-  max: PropTypes.number,
+  min: PropTypes.string,
+  max: PropTypes.string,
 };
 
 export default GreeklyMinMaxInput;

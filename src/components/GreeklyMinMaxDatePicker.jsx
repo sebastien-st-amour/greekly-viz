@@ -2,11 +2,15 @@ import React from "react";
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import GreeklyDatePicker from "./GreeklyDatePicker";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 class GreeklyMinMaxDatePicker extends React.Component {
 
   constructor(props) {
+    
     super(props);
     this.handleMinChange = this.handleMinChange.bind(this);
     this.handleMaxChange = this.handleMaxChange.bind(this);
@@ -18,6 +22,7 @@ class GreeklyMinMaxDatePicker extends React.Component {
   }
 
   handleMinChange(selected) {
+    
     this.props.onChange({
       min: selected,
       max: this.props.max,
@@ -25,6 +30,7 @@ class GreeklyMinMaxDatePicker extends React.Component {
   }
 
   handleMaxChange(selected) {
+    
     this.props.onChange({
       max: selected,
       min: this.props.min,
@@ -33,6 +39,11 @@ class GreeklyMinMaxDatePicker extends React.Component {
 
   handleFilterChange(selected) {
 
+    this.props.onChange({
+      min: null,
+      max: null,
+    });
+
     this.setState({
       selectedFilter: selected,
     });
@@ -40,28 +51,23 @@ class GreeklyMinMaxDatePicker extends React.Component {
 
   render() {
 
+    const { selectedFilter } = this.state;
+
     const filterOptions = [
       { value: 'min', label: 'after' },
       { value: 'max', label: 'before' },
       { value: 'between', label: 'between' },
     ];
 
-    const { selectedFilter } = this.state;
-
     let aggregateValueSelector;
 
     if (selectedFilter?.value === 'between') {
 
       aggregateValueSelector = (
-        <div>
-          <div>
-            <label>Min</label>
-            <GreeklyDatePicker selectedDate={this.props.min} onSelect={this.handleMinChange}/>
-          </div>
-          <div>
-            <label>Max</label>
-            <GreeklyDatePicker selectedDate={this.props.max} onSelect={this.handleMaxChange}/>
-          </div>
+        <div style={{'display':'inline-flex'}}>
+          <GreeklyDatePicker selectedDate={this.props.min} onSelect={this.handleMinChange}/>
+          <span> and </span>
+          <GreeklyDatePicker selectedDate={this.props.max} onSelect={this.handleMaxChange}/>
         </div>
       );
     } else if (selectedFilter?.value === 'min') {
@@ -71,15 +77,20 @@ class GreeklyMinMaxDatePicker extends React.Component {
     }
     
     return (
-      <div style={{'display':'inline-flex'}}>
-        <Select
-          options={filterOptions}
-          onChange={this.handleFilterChange}
-        />
-        <div>
-          {aggregateValueSelector}
-        </div>
-      </div>
+      <Container>
+        <Row>
+          <Col>
+            <Select
+              value={selectedFilter}
+              onChange={this.handleFilterChange}
+              options={filterOptions}
+            />
+          </Col>
+          <Col>
+            {aggregateValueSelector}
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

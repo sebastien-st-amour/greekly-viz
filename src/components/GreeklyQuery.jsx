@@ -72,8 +72,8 @@ class GreeklyQuery extends React.Component {
           key={selectedQueryParam.value}
           param={selectedQueryParam.value}
           onChange={this.handleQueryParamValueChange}
-          min={queryParamValue?.min || 0}
-          max={queryParamValue?.max || Math.pow(10, 1000)}
+          min={queryParamValue?.min || ''}
+          max={queryParamValue?.max || ''}
         />
       );
     }
