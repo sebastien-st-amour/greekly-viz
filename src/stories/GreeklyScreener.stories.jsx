@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import GreeklyQuery from "../components/GreeklyQuery";
+import GreeklyScreener from "../components/GreeklyScreener";
 
 export default {
-  title: "GreeklyQuery",
-  component: GreeklyQuery,
+  title: "GreeklyScreener",
+  component: GreeklyScreener,
 };
 
-const queryOptions = [
+const queryParamOptions = [
   { value: 'expdate', label: 'Exp. Date' },
   { value: 'bidprice', label: 'Bid Price' },
   { value: 'askprice', label: 'Ask Price' },
@@ -36,17 +36,14 @@ const availableOptionTypes = [
 
 export const Default = () => {
 
-  const [queryParam, setQueryParam] = useState(null);
-  const [queryParamValue, setQueryParamValue] = useState(null);
+  const [queries, setQueries] = useState([]);
 
   return (
-    <GreeklyQuery 
+    <GreeklyScreener
       availableUnderlyings={availableUnderlyings}
-      queryParam={queryParam}
-      onQueryParamChange={setQueryParam}
-      queryParamValue={queryParamValue}
-      onQueryParamValueChange={setQueryParamValue}
-      queryOptions={queryOptions}
+      queries={queries}
+      onQueriesChange={setQueries}
+      queryParamOptions={queryParamOptions}
       availableOptionTypes={availableOptionTypes}
     />
   );

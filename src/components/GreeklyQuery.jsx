@@ -15,32 +15,23 @@ class GreeklyQuery extends React.Component {
     super(props);
     this.handleQueryParamChange = this.handleQueryParamChange.bind(this);
     this.handleQueryParamValueChange = this.handleQueryParamValueChange.bind(this);
-
-    this.state = {
-      selectedQueryParam: null,
-      queryParamValue: null,
-    };
   }
 
   handleQueryParamChange(selected) {
-    this.setState({
-      selectedQueryParam: selected,
-      queryParamValue: null,
-    });
+    this.props.onQueryParamValueChange(null);
+    this.props.onQueryParamChange(selected);
   }
 
   handleQueryParamValueChange(selected) {
-    this.setState({
-      queryParamValue: selected,
-    });
+    this.props.onQueryParamValueChange(selected);
   }
 
   render() {
 
-    const { selectedQueryParam, queryParamValue } = this.state;
+    const { queryParam, queryParamValue } = this.props;
 
     let valueSelector;
-    if (selectedQueryParam?.value === 'underlying') {
+    if (queryParam?.value === 'underlying') {
 
       valueSelector = (
         <GreeklyMultiSelector
@@ -48,7 +39,7 @@ class GreeklyQuery extends React.Component {
           onSelect={this.handleQueryParamValueChange}
         />
       );
-    } else if (selectedQueryParam?.value === 'type') {
+    } else if (queryParam?.value === 'type') {
 
       valueSelector = (
         <Select
@@ -56,7 +47,7 @@ class GreeklyQuery extends React.Component {
           onChange={this.handleQueryParamValueChange}
         />
       );
-    } else if (selectedQueryParam?.value === 'expdate') {
+    } else if (queryParam?.value === 'expdate') {
 
       valueSelector = (
         <GreeklyMinMaxDatePicker
@@ -65,12 +56,12 @@ class GreeklyQuery extends React.Component {
           max={queryParamValue?.max}
         />
       );
-    } else if (selectedQueryParam?.value) {
+    } else if (queryParam?.value) {
 
       valueSelector = (
         <GreeklyMinMaxInput
-          key={selectedQueryParam.value}
-          param={selectedQueryParam.value}
+          key={queryParam.value}
+          param={queryParam.value}
           onChange={this.handleQueryParamValueChange}
           min={queryParamValue?.min || ''}
           max={queryParamValue?.max || ''}
@@ -84,6 +75,7 @@ class GreeklyQuery extends React.Component {
           <Col>
             <Select
               options={this.props.queryOptions}
+              value={queryParam}
               onChange={this.handleQueryParamChange}
             />
           </Col>
@@ -99,6 +91,10 @@ class GreeklyQuery extends React.Component {
 GreeklyQuery.propTypes = {
   availableUnderlyings: PropTypes.arrayOf(PropTypes.object).isRequired,
   queryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onQueryParamChange: PropTypes.func.isRequired,
+  queryParam: PropTypes.object,
+  onQueryParamValueChange: PropTypes.func.isRequired,
+  queryParamValue: PropTypes.object,
   availableOptionTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
