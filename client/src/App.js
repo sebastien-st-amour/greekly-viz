@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GreeklyScreener from "./components/GreeklyScreener";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -38,6 +38,18 @@ const availableOptionTypes = [
 function App() {
 
   const [queries, setQueries] = useState([]);
+  const [stocks, setStocks] = useState([]);
+
+  const fetchStocks = () => {
+    fetch('/api/stocks')
+      .then(res => res.json())
+      .then(stocks => setStocks(stocks))
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    fetchStocks();
+  }, []);
 
   return (
     <>
@@ -56,6 +68,14 @@ function App() {
         queryParamOptions={queryParamOptions}
         availableOptionTypes={availableOptionTypes}
       />
+      <div>
+        {stocks.map(stock => (
+          <div key={stock.ticker}>
+            <h3>{stock.ticker}</h3>
+            <p>{stock.description}</p>
+          </div>))
+          }
+      </div>
     </>
   );
 }
