@@ -12,6 +12,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 app.get('/api/stocks', greekly.fetchStocks);
+app.get('/api/option_contracts*', greekly.fetchOptionContracts);
 
 
 app.get('*', (req, res) => {

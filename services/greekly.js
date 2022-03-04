@@ -59,7 +59,9 @@ const fetchOptionContracts = async (req, res) => {
 
     const token = await tokenCache.get('token') || await fetchToken();
 
-    const data = await axios.get(`${process.env.GREEKLY_API_URL}/api/option_contracts`, {
+    const params = url.parse(req.url, true).search;
+
+    const data = await axios.get(`${process.env.GREEKLY_API_URL}/api/option_contracts${params}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

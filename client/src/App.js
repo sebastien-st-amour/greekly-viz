@@ -39,6 +39,7 @@ function App() {
 
   const [queries, setQueries] = useState([]);
   const [stocks, setStocks] = useState([]);
+  const [optionContracts, setOptionContracts] = useState([]);
 
   const fetchStocks = () => {
     fetch('/api/stocks')
@@ -47,8 +48,16 @@ function App() {
       .catch(err => console.log(err))
   }
 
+  const fetchOptionContracts = ({params}) => {
+    fetch(`/api/option_contracts?${params}`)
+      .then(res => res.json())
+      .then(optionContracts => setOptionContracts(optionContracts.items))
+      .catch(err => console.log(err))
+  }
+
   useEffect(() => {
     fetchStocks();
+    fetchOptionContracts({params: 'page=1'});
   }, []);
 
   return (
@@ -73,6 +82,14 @@ function App() {
           <div key={stock.ticker}>
             <h3>{stock.ticker}</h3>
             <p>{stock.description}</p>
+          </div>))
+          }
+      </div>
+      <div>
+        {optionContracts.map(option => (
+          <div key={option.id}>
+            <p>{option.expiration_date}</p>
+            <p>{option.strike_price}</p>
           </div>))
           }
       </div>
