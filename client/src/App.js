@@ -2,23 +2,60 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import GreeklyScreener from "./components/GreeklyScreener";
+import GreeklyOptionContractsTable from './components/GreeklyOptionContractsTable';
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
-const queryParamOptions = [
-  { value: 'expdate', label: 'Exp. Date' },
-  { value: 'bidprice', label: 'Bid Price' },
-  { value: 'askprice', label: 'Ask Price' },
-  { value: 'underlying', label: 'Underlying' },
-  { value: 'strike', label: 'Strike' },
-  { value: 'volatility', label: 'Volatility' },
-  { value: 'theta', label: 'Theta' },
-  { value: 'delta', label: 'Delta' },
-  { value: 'gamma', label: 'Gamma' },
-  { value: 'vega', label: 'Vega' },
-  { value: 'rho', label: 'Rho' },
-  { value: 'type', label: 'Option Type' },
+let queryParams = [
+  {
+    queryParam: { value: 'expdate', label: 'Exp. Date' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'strike', label: 'Strike' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'type', label: 'Option Type' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'theta', label: 'Theta' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'delta', label: 'Delta' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'gamma', label: 'Gamma' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'vega', label: 'Vega' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'rho', label: 'Rho' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'askprice', label: 'Ask Price' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'bidprice', label: 'Bid Price' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'underlying', label: 'Underlying' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'volatility', label: 'Volatility' },
+    queryParamValue: null
+  },
 ]
 
 const availableUnderlyings = [
@@ -37,16 +74,17 @@ const availableOptionTypes = [
 
 function App() {
 
-  const [queries, setQueries] = useState([]);
-  const [stocks, setStocks] = useState([]);
+  const [queries, setQueries] = useState(queryParams);
+  // const [stocks, setStocks] = useState([]);
   const [optionContracts, setOptionContracts] = useState([]);
 
-  const fetchStocks = () => {
-    fetch('/api/stocks')
-      .then(res => res.json())
-      .then(stocks => setStocks(stocks))
-      .catch(err => console.log(err))
-  }
+  console.log('queries', queries);
+  // const fetchStocks = () => {
+  //   fetch('/api/stocks')
+  //     .then(res => res.json())
+  //     .then(stocks => setStocks(stocks))
+  //     .catch(err => console.log(err))
+  // }
 
   const fetchOptionContracts = ({params}) => {
     fetch(`/api/option_contracts?${params}`)
@@ -56,8 +94,8 @@ function App() {
   }
 
   useEffect(() => {
-    fetchStocks();
-    fetchOptionContracts({params: 'page=1'});
+    // fetchStocks();
+    fetchOptionContracts({params: 'type=C&max_theta=0&min_theta'});
   }, []);
 
   return (
@@ -74,25 +112,11 @@ function App() {
         availableUnderlyings={availableUnderlyings}
         queries={queries}
         onQueriesChange={setQueries}
-        queryParamOptions={queryParamOptions}
         availableOptionTypes={availableOptionTypes}
       />
-      <div>
-        {stocks.map(stock => (
-          <div key={stock.ticker}>
-            <h3>{stock.ticker}</h3>
-            <p>{stock.description}</p>
-          </div>))
-          }
-      </div>
-      <div>
-        {optionContracts.map(option => (
-          <div key={option.id}>
-            <p>{option.expiration_date}</p>
-            <p>{option.strike_price}</p>
-          </div>))
-          }
-      </div>
+      <GreeklyOptionContractsTable
+        optionContracts={optionContracts}
+      />
     </>
   );
 }

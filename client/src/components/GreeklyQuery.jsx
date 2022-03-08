@@ -13,13 +13,7 @@ class GreeklyQuery extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleQueryParamChange = this.handleQueryParamChange.bind(this);
     this.handleQueryParamValueChange = this.handleQueryParamValueChange.bind(this);
-  }
-
-  handleQueryParamChange(selected) {
-    this.props.onQueryParamValueChange(null);
-    this.props.onQueryParamChange(selected);
   }
 
   handleQueryParamValueChange(selected) {
@@ -73,11 +67,7 @@ class GreeklyQuery extends React.Component {
       <Container>
         <Row>
           <Col>
-            <Select
-              options={this.props.queryOptions}
-              value={queryParam}
-              onChange={this.handleQueryParamChange}
-            />
+            {queryParam?.label}
           </Col>
           <Col>
             {valueSelector}
@@ -90,8 +80,6 @@ class GreeklyQuery extends React.Component {
 
 GreeklyQuery.propTypes = {
   availableUnderlyings: PropTypes.arrayOf(PropTypes.object).isRequired,
-  queryOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onQueryParamChange: PropTypes.func.isRequired,
   queryParam: PropTypes.object,
   onQueryParamValueChange: PropTypes.func.isRequired,
   queryParamValue: PropTypes.object,
