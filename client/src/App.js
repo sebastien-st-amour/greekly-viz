@@ -9,11 +9,19 @@ import Nav from "react-bootstrap/Nav";
 
 let queryParams = [
   {
-    queryParam: { value: 'expdate', label: 'Exp. Date' },
+    queryParam: { value: 'max_expiration', label: 'Max Exp. Date' },
     queryParamValue: null
   },
   {
-    queryParam: { value: 'strike', label: 'Strike' },
+    queryParam: { value: 'min_expiration', label: 'Min Exp. Date' },
+    queryParamValue: null
+  },
+  {
+    queryParam: { value: 'max_strike', label: 'Max Strike Price' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'min_strike', label: 'Min Strike Price' },
     queryParamValue: ''
   },
   {
@@ -21,31 +29,59 @@ let queryParams = [
     queryParamValue: null
   },
   {
-    queryParam: { value: 'theta', label: 'Theta' },
+    queryParam: { value: 'max_theta', label: 'Max Theta' },
     queryParamValue: ''
   },
   {
-    queryParam: { value: 'delta', label: 'Delta' },
+    queryParam: { value: 'min_theta', label: 'Min Theta' },
     queryParamValue: ''
   },
   {
-    queryParam: { value: 'gamma', label: 'Gamma' },
+    queryParam: { value: 'max_delta', label: 'Max Delta' },
     queryParamValue: ''
   },
   {
-    queryParam: { value: 'vega', label: 'Vega' },
+    queryParam: { value: 'min_delta', label: 'Min Delta' },
     queryParamValue: ''
   },
   {
-    queryParam: { value: 'rho', label: 'Rho' },
+    queryParam: { value: 'max_gamma', label: 'Max Gamma' },
     queryParamValue: ''
   },
   {
-    queryParam: { value: 'askprice', label: 'Ask Price' },
+    queryParam: { value: 'min_gamma', label: 'Min Gamma' },
     queryParamValue: ''
   },
   {
-    queryParam: { value: 'bidprice', label: 'Bid Price' },
+    queryParam: { value: 'max_vega', label: 'Max Vega' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'min_vega', label: 'Min Vega' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'max_rho', label: 'Max Rho' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'min_rho', label: 'Min Rho' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'max_ask_price', label: 'Max Ask Price' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'min_ask_price', label: 'Min Ask Price' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'max_bid_price', label: 'Max Bid Price' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'min_bid_price', label: 'Min Bid Price' },
     queryParamValue: ''
   },
   {
@@ -53,7 +89,11 @@ let queryParams = [
     queryParamValue: null
   },
   {
-    queryParam: { value: 'volatility', label: 'Volatility' },
+    queryParam: { value: 'max_volatility', label: 'Max Volatility' },
+    queryParamValue: ''
+  },
+  {
+    queryParam: { value: 'min_volatility', label: 'Min Volatility' },
     queryParamValue: ''
   },
 ]
@@ -75,16 +115,7 @@ const availableOptionTypes = [
 function App() {
 
   const [queries, setQueries] = useState(queryParams);
-  // const [stocks, setStocks] = useState([]);
   const [optionContracts, setOptionContracts] = useState([]);
-
-  console.log('queries', queries);
-  // const fetchStocks = () => {
-  //   fetch('/api/stocks')
-  //     .then(res => res.json())
-  //     .then(stocks => setStocks(stocks))
-  //     .catch(err => console.log(err))
-  // }
 
   const fetchOptionContracts = ({params}) => {
     fetch(`/api/option_contracts?${params}`)
@@ -94,9 +125,18 @@ function App() {
   }
 
   useEffect(() => {
-    // fetchStocks();
-    fetchOptionContracts({params: 'type=C&max_theta=0&min_theta=-0.1'});
-  }, []);
+
+    let params = queries.reduce((acc, query) => {
+      if (query.queryParamValue) {
+        acc.push(`${query.queryParam.value}=${query.queryParamValue}`)
+      }
+      return acc;
+    }, []).join('&');
+
+    console.log('params', params);
+    fetchOptionContracts({params});
+    
+  }, [queries]);
 
   return (
     <>

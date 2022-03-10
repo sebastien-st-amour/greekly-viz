@@ -40,9 +40,13 @@ class GreeklyQuery extends React.Component {
           onChange={this.handleQueryParamValueChange}
         />
       );
-    } else if (queryParam?.value.includes('expdate')) {
+    } else if (queryParam?.value.includes('expiration')) {
 
-      valueSelector = <GreeklyDatePicker selectedDate={queryParamValue} onSelect={this.handleQueryParamValueChange}/>;
+      valueSelector = (
+        <GreeklyDatePicker 
+          selectedDate={queryParamValue} 
+          onSelect={this.handleQueryParamValueChange}
+        />);
     } else if (queryParam?.value) {
 
       valueSelector = <input type="number" value={queryParamValue} onChange={(e) => this.handleQueryParamValueChange(e.target.value)}/>;
