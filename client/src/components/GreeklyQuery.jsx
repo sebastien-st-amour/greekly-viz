@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GreeklyMultiSelector from './GreeklyMultiSelector';
-import GreeklyMinMaxInput from './GreeklyMinMaxInput';
-import GreeklyMinMaxDatePicker from './GreeklyMinMaxDatePicker';
+import GreeklyDatePicker from "./GreeklyDatePicker";
 import Select from 'react-select';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -41,26 +40,12 @@ class GreeklyQuery extends React.Component {
           onChange={this.handleQueryParamValueChange}
         />
       );
-    } else if (queryParam?.value === 'expdate') {
+    } else if (queryParam?.value.includes('expdate')) {
 
-      valueSelector = (
-        <GreeklyMinMaxDatePicker
-          onChange={this.handleQueryParamValueChange}
-          min={queryParamValue?.min}
-          max={queryParamValue?.max}
-        />
-      );
+      valueSelector = <GreeklyDatePicker selectedDate={queryParamValue} onSelect={this.handleQueryParamValueChange}/>;
     } else if (queryParam?.value) {
 
-      valueSelector = (
-        <GreeklyMinMaxInput
-          key={queryParam.value}
-          param={queryParam.value}
-          onChange={this.handleQueryParamValueChange}
-          min={queryParamValue?.min || ''}
-          max={queryParamValue?.max || ''}
-        />
-      );
+      valueSelector = <input type="number" value={queryParamValue} onChange={(e) => this.handleQueryParamValueChange(e.target.value)}/>;
     }
 
     return (

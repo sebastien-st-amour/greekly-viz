@@ -14,7 +14,7 @@ let queryParams = [
   },
   {
     queryParam: { value: 'strike', label: 'Strike' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'type', label: 'Option Type' },
@@ -22,31 +22,31 @@ let queryParams = [
   },
   {
     queryParam: { value: 'theta', label: 'Theta' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'delta', label: 'Delta' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'gamma', label: 'Gamma' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'vega', label: 'Vega' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'rho', label: 'Rho' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'askprice', label: 'Ask Price' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'bidprice', label: 'Bid Price' },
-    queryParamValue: null
+    queryParamValue: ''
   },
   {
     queryParam: { value: 'underlying', label: 'Underlying' },
@@ -54,7 +54,7 @@ let queryParams = [
   },
   {
     queryParam: { value: 'volatility', label: 'Volatility' },
-    queryParamValue: null
+    queryParamValue: ''
   },
 ]
 
@@ -67,8 +67,8 @@ const availableUnderlyings = [
 ]
 
 const availableOptionTypes = [
-  { value: 'call', label: 'Call' },
-  { value: 'put', label: 'Put' },
+  { value: 'C', label: 'Call' },
+  { value: 'P', label: 'Put' },
 ]
 
 
@@ -95,7 +95,7 @@ function App() {
 
   useEffect(() => {
     // fetchStocks();
-    fetchOptionContracts({params: 'type=C&max_theta=0&min_theta'});
+    fetchOptionContracts({params: 'type=C&max_theta=0&min_theta=-0.1'});
   }, []);
 
   return (

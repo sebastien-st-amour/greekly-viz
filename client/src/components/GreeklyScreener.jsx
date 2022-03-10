@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GreeklyQuery from './GreeklyQuery';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Stack from 'react-bootstrap/Stack';
+import CardGroup from 'react-bootstrap/CardGroup';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 
 class GreeklyScreener extends React.Component {
 
@@ -27,34 +26,26 @@ class GreeklyScreener extends React.Component {
 
     const listQueries = queries.map((query, index) => {
       return (
-        <Container key={query.queryParam.value}>
-          <Row>
-            <Col>
-              <GreeklyQuery
-                queryParam={query.queryParam}
-                queryParamValue={query?.queryParamValue}
-                availableUnderlyings={availableUnderlyings}
-                availableOptionTypes={availableOptionTypes}
-                onQueryParamValueChange={(val) => this.changeQueryParamValue(index, val)}
-              />
-            </Col>
-            <Col md="auto">
-              <Button 
-                as="input" 
-                type="reset" 
-                value="Reset"
-                onClick={() => this.changeQueryParamValue(index, null)}
-              />
-            </Col>
-          </Row>
-        </Container>
+        <ListGroup.Item key={query.queryParam.value}>
+          <GreeklyQuery
+            queryParam={query.queryParam}
+            queryParamValue={query.queryParamValue}
+            availableOptionTypes={availableOptionTypes}
+            availableUnderlyings={availableUnderlyings}
+            onQueryParamValueChange={(value) => this.changeQueryParamValue(index, value)}
+          />
+        </ListGroup.Item>
       );
     });
 
     return (
-      <Stack>
-        {listQueries}
-      </Stack>
+      <CardGroup>
+        <Card>
+          <ListGroup>
+            {listQueries}
+          </ListGroup>
+        </Card>
+      </CardGroup>
     );
   }
 }
