@@ -45,7 +45,7 @@ const fetchStocks = async (req, res) => {
       
       const token = await fetchToken();
       
-      return await fetchStocks();
+      return await fetchStocks(req, res);
     
     }
     console.log(error);
@@ -75,7 +75,7 @@ const fetchOptionContracts = async (req, res) => {
 
       const token = await fetchToken();
 
-      return await fetchOptionContracts();
+      return await fetchOptionContracts(req, res);
 
     }
     console.log(error);
